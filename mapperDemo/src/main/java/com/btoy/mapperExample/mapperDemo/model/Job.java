@@ -1,40 +1,33 @@
 package com.btoy.mapperExample.mapperDemo.model;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name= "USERS")
-@Builder
-public class User {
-    
+@Entity
+public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String jobTitle;
+    private String jobDescription;
+    private String companyName;
+    private String location;
+    private Double salary;
+    private LocalDate postedDate;
+    private boolean jobStatus;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String password;
-
-    @OneToMany(mappedBy = "user")
-    private List<Job> jobs;
-    
+    @ManyToOne
+    private User user;
 }
-

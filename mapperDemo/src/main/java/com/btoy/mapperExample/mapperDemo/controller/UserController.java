@@ -8,21 +8,22 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.btoy.mapperExample.mapperDemo.Service.UserService;
+import com.btoy.mapperExample.mapperDemo.Service.User.UserService;
 import com.btoy.mapperExample.mapperDemo.dto.UserDTO;
 import com.btoy.mapperExample.mapperDemo.model.User;
 
 @RestController
 @RequestMapping("/api/v1")
-public class MainRestController {
+public class UserController {
     
     private final UserService userService;
 
-    public MainRestController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -53,5 +54,11 @@ public class MainRestController {
     public ResponseEntity<String> deleteUserById(@PathVariable Long userId){
         userService.deleteUserById(userId);
         return new ResponseEntity<>("Id with" + " " + userId +" is deleted!", HttpStatus.CONFLICT);
+    }
+
+    @PutMapping("/user/{userId}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody User user){
+        var userDTO = userService.updateUser(userId, user);
+        return new ResponseEntity<>(userDTO, HttpStatus.NO_CONTENT);
     }
 }

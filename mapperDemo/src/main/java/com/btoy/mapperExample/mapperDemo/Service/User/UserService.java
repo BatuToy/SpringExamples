@@ -1,4 +1,4 @@
-package com.btoy.mapperExample.mapperDemo.Service;
+package com.btoy.mapperExample.mapperDemo.Service.User;
 
 import java.util.List;
 
@@ -11,4 +11,5 @@ public interface UserService {
     UserDTO getUserById(Long userId);
     void deleteAllUsers();
     void deleteUserById(Long userId);
+    UserDTO updateUser(Long userId, User user);
 }
