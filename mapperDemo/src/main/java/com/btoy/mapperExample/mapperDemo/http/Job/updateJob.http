@@ -1,0 +1,14 @@
+PUT http://localhost:8080/api/v1/job/2
+Content-Type: application/json
+
+{
+  "id": 1,
+  "jobTitle": "Software Engineer [UPDATED]",
+  "jobDescription": "Responsible for developing, testing, and maintaining software applications. [UPDATED]",
+  "companyName": "TechCorp [UPDATED]",
+  "location": "San Francisco, CA [UPDATED]",
+  "salary": 120000.00,
+  "postedDate": "2024-07-08",
+  "jobStatus": true
+}
+

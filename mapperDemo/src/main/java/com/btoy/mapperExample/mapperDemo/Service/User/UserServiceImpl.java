@@ -1,9 +1,11 @@
-package com.btoy.mapperExample.mapperDemo.Service;
+package com.btoy.mapperExample.mapperDemo.Service.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.btoy.mapperExample.mapperDemo.convert.UserDTOConverter;
 import com.btoy.mapperExample.mapperDemo.dto.UserDTO;
@@ -54,4 +56,23 @@ public class UserServiceImpl implements UserService{
     public void deleteUserById(Long userId) {  
         userRepository.deleteById(userId);
     }
+
+    @Override
+    @Transactional(noRollbackFor = RuntimeException.class)
+    public UserDTO updateUser(Long userId, User user) {
+        Optional<User> userOptional = Optional.of(userRepository.getUserById(userId));
+        User userToUpdate = userOptional.get();
+        if(userOptional.isPresent()){
+            userToUpdate.setFirstName(user.getFirstName());
+            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setPassword(user.getPassword());
+            userRepository.save(userToUpdate);
+            var userDTO = userDTOConverter.convertUserToUserDTO(userToUpdate);
+            return userDTO;
+        } else {
+            throw new RuntimeException("User can't be null!");
+        }
+    }
+
 }
