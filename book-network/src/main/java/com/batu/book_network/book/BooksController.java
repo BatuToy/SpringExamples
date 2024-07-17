@@ -1,12 +1,9 @@
 package com.batu.book_network.book;
 
 import com.batu.book_network.request.BookRequest;
-import com.batu.book_network.response.BookResponse;
-import com.batu.book_network.response.BorrowedBookResponse;
-import com.batu.book_network.response.UploadBookCoverPictureResponse;
+import com.batu.book_network.response.*;
 import com.batu.book_network.common.PageResponse;
 import com.batu.book_network.convert.BookMapper;
-import com.batu.book_network.convert.Mapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,27 +24,30 @@ public class BooksController {
     private final BookMapper bookMapper;
 
     @PostMapping
-    public ResponseEntity<Long> addBook(
+    public ResponseEntity<SaveBookResponse> save(
         @org.springframework.web.bind.annotation.RequestBody @Valid BookRequest request,
         org.springframework.security.core.Authentication connectedUser
     ){
-        return service.saveBook(request, connectedUser) == null ?
+
+        return service.save(bookMapper.toSaveBookRequest(request, connectedUser)) == null ?
                 ResponseEntity.badRequest().build() :
-                ResponseEntity.ok(service.saveBook(request, connectedUser));
+                ResponseEntity.ok(service.save(  bookMapper.toSaveBookRequest(request, connectedUser)));
     }
 
     @GetMapping(value = "{book-id}")
-    public ResponseEntity<BookResponse> findBookById(@PathVariable("book-id") Long bookId){
-        return ResponseEntity.ok(service.findBookById(bookId));
+    public ResponseEntity<FindBookByIdResponse> findBookById(@PathVariable("book-id") Long bookId){
+        var request = bookMapper.toFindBookByIdRequest(bookId);
+        return ResponseEntity.ok(service.findBookById(request));
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<BookResponse>> findAllBooks(
+    public ResponseEntity<FindAllBooksResponse> findAllBooks(
         @RequestParam(name = "page", defaultValue = "0", required = false) int page,
         @RequestParam(name = "size", defaultValue = "10", required = false)int size,
         Authentication connectedUser
     ){
-        return ResponseEntity.ok(service.findAllBooks(page, size, connectedUser));
+        var request = bookMapper.toFindAllBooksRequest(page, size, connectedUser);
+        return ResponseEntity.ok(service.findAllBooks(request));
     }
 
     @GetMapping(value = "owner")
@@ -78,31 +78,34 @@ public class BooksController {
     }
 
     @PatchMapping(value = "shareable/{book-id}")
-    public ResponseEntity<Long> updateShareableStatus(
+    public ResponseEntity<UpdateShareableStatusResponse> updateShareableStatus(
             @PathVariable("book-id") Long bookId,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.updateShareableStatus(bookId, connectedUser));
+        var request = bookMapper.toUpdateShareableStatusRequest(bookId, connectedUser);
+        return ResponseEntity.ok(service.updateShareableStatus(request));
     }
 
     @PatchMapping("archived/{book-id}")
-    public ResponseEntity<Long> updateArchivedStatus(
+    public ResponseEntity<UpdateArchivedStatusResponse> updateArchivedStatus(
             @PathVariable("book-id") Long bookId,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.updatedArchivedStatus(bookId, connectedUser));
+        var request = bookMapper.toUpdateArchivedStatusRequest(bookId, connectedUser);
+        return ResponseEntity.ok(service.updatedArchivedStatus(request));
     }
 
     @PostMapping(value = "borrow/{book-id}")
-    public ResponseEntity<Long> borrowBook(
+    public ResponseEntity<BorrowBookResponse> borrowBook(
             @PathVariable("book-id") Long bookId,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.borrowBook(bookId, connectedUser));
+        var request = bookMapper.toBorrowBookRequest(bookId, connectedUser);
+        return ResponseEntity.ok(service.borrowBook(request));
     }
 
     @PatchMapping(value = "borrow/return/{book-id}")
-    public ResponseEntity<Long> returnBorrowedBook(
+    public ResponseEntity<ReturnBorrowedBookResponse> returnBorrowedBook(
             @PathVariable("book-id") Long bookId,
             Authentication connectedUser
     ) {
@@ -111,7 +114,7 @@ public class BooksController {
     }
 
     @PatchMapping(value = "borrow/return/approve/{book-id}")
-    public ResponseEntity<Long> approveReturnBorrowedBook(
+    public ResponseEntity<ApproveReturnBorrowedBookResponse> approveReturnBorrowedBook(
             @PathVariable("book-id") Long bookId,
             Authentication connectedUser
     ) {

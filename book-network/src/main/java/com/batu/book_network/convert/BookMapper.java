@@ -1,12 +1,8 @@
 package com.batu.book_network.convert;
 
-import com.batu.book_network.request.ApproveReturnBorrowedBookRequest;
-import com.batu.book_network.request.BookRequest;
-import com.batu.book_network.request.ReturnBorrowedBookRequest;
-import com.batu.book_network.request.UploadBookCoverPictureRequest;
-import com.batu.book_network.response.BookResponse;
-import com.batu.book_network.response.BorrowedBookResponse;
-import com.batu.book_network.response.UploadBookCoverPictureResponse;
+import com.batu.book_network.common.PageResponse;
+import com.batu.book_network.request.*;
+import com.batu.book_network.response.*;
 import com.batu.book_network.book.*;
 import com.batu.book_network.history.BookTransactionHistory;
 import org.modelmapper.ModelMapper;
@@ -44,27 +40,32 @@ public class BookMapper {
             modelMapper.map(Book::getRate, UploadBookCoverPictureResponse::setRate);
             modelMapper.map(Book::getBookCoverPic, UploadBookCoverPictureResponse::setCover);
         });
+
+        mapper.typeMap(BookTransactionHistory.class, BorrowBookResponse.class).addMappings( bookMapper -> {
+            bookMapper.map(BookTransactionHistory::getId, BorrowBookResponse::setTransactionHistoryId);
+        });
+
+        mapper.typeMap(BookTransactionHistory.class, ApproveReturnBorrowedBookResponse.class).addMappings( bookMapper -> {
+            bookMapper.map(BookTransactionHistory::getId, ApproveReturnBorrowedBookResponse::setTransactionHistoryId);
+        });
+
+        mapper.typeMap(Book.class, SaveBookResponse.class).addMappings( bookMapper -> {
+            bookMapper.map(Book::getId, SaveBookResponse::setSaveBookId);
+        });
+
+        mapper.typeMap(BookTransactionHistory.class, ReturnBorrowedBookResponse.class).addMappings( bookMapper -> {
+            bookMapper.map(BookTransactionHistory::getId, ReturnBorrowedBookResponse::setTransactionHistoryId);
+        });
+
+        mapper.typeMap(Book.class, UpdateShareableStatusResponse.class).addMappings( bookMapper ->{
+            bookMapper.map(Book::getId, UpdateShareableStatusResponse::setBookId);
+        });
+
+        mapper.typeMap(Book.class, UpdateArchivedStatusResponse.class).addMappings(bookMapper ->{
+            bookMapper.map(Book::getId, UpdateArchivedStatusResponse::setBookId);
+        });
     }
 
-    public Book requestToBook(BookRequest request){
-        return mapper.map(request, Book.class);
-
-    }
-
-    public BookResponse bookToResponse(Book book){
-        // Check the book, see if there is need for a config to correct the mapping.
-        return mapper.map(book, BookResponse.class);
-
-    }
-
-    public BorrowedBookResponse historyToBorrowedBookResponse(BookTransactionHistory history) {
-        return mapper.map(history, BorrowedBookResponse.class);
-
-    }
-
-    public UploadBookCoverPictureResponse bookCoverPictureResponse(Book book) {
-        return mapper.map(book, UploadBookCoverPictureResponse.class);
-    }
 
     public UploadBookCoverPictureRequest toUploadBookCoverPictureRequest(Long bookId,
                                                                          Authentication connectedUser,
@@ -86,11 +87,117 @@ public class BookMapper {
                 .build();
     }
 
-    public ReturnBorrowedBookRequest toReturnBorrowedBook(Long bookId, Authentication connectedUser) {
+    public ReturnBorrowedBookRequest toReturnBorrowedBook(Long bookId,
+                                                          Authentication connectedUser) {
         return ReturnBorrowedBookRequest
                 .builder()
                 .bookId(bookId)
                 .connectedUser(connectedUser)
                 .build();
     }
+
+    public BorrowBookRequest toBorrowBookRequest(Long bookId, Authentication connectedUser) {
+        return BorrowBookRequest
+                .builder()
+                .bookId(bookId)
+                .connectedUser(connectedUser)
+                .build();
+    }
+
+    public UpdateShareableStatusRequest toUpdateShareableStatusRequest(Long bookId, Authentication connectedUser) {
+        return UpdateShareableStatusRequest
+                .builder()
+                .bookId(bookId)
+                .connectedUser(connectedUser)
+                .build();
+    }
+
+    public UpdateArchivedStatusRequest toUpdateArchivedStatusRequest(Long bookId, Authentication connectedUser) {
+        return UpdateArchivedStatusRequest
+                .builder()
+                .bookId(bookId)
+                .connectedUser(connectedUser)
+                .build();
+    }
+
+    public FindBookByIdRequest toFindBookByIdRequest(Long bookId){
+        return FindBookByIdRequest
+                .builder()
+                .bookId(bookId)
+                .build();
+    }
+
+    public FindAllBooksRequest toFindAllBooksRequest(int page, int size, Authentication connectedUser) {
+        return FindAllBooksRequest
+                .builder()
+                .page(page)
+                .size(size)
+                .connectedUser(connectedUser)
+                .build();
+    }
+
+    public SaveBookRequest toSaveBookRequest(BookRequest request, Authentication connectedUser) {
+        return SaveBookRequest
+                .builder()
+                .bookRequest(request)
+                .connectedUser(connectedUser)
+                .build();
+    }
+
+    public Book requestToBook(BookRequest request){
+        return mapper.map(request, Book.class);
+
+    }
+
+
+    public UploadBookCoverPictureResponse bookCoverPictureResponse(Book book) {
+        return mapper.map(book, UploadBookCoverPictureResponse.class);
+    }
+
+    public BookResponse bookToResponse(Book book){
+        return mapper.map(book, BookResponse.class);
+
+    }
+
+    public BorrowedBookResponse historyToBorrowedBookResponse(BookTransactionHistory history) {
+        return mapper.map(history, BorrowedBookResponse.class);
+
+    }
+
+    public ApproveReturnBorrowedBookResponse toApproveReturnBorrowedBookResponse(BookTransactionHistory history){
+        return mapper.map(history, ApproveReturnBorrowedBookResponse.class);
+    }
+
+    public BorrowBookResponse toBorrowBookResponse(BookTransactionHistory history) {
+        return mapper.map(history, BorrowBookResponse.class);
+    }
+
+    public SaveBookResponse toSaveBookResponse(Book book) {
+        return mapper.map(book, SaveBookResponse.class);
+    }
+
+    public ReturnBorrowedBookResponse toReturnBorrowedBookResponse(BookTransactionHistory history) {
+        return mapper.map(history, ReturnBorrowedBookResponse.class);
+    }
+
+    public UpdateShareableStatusResponse toUpdateShareableStatusResponse(Book book) {
+        return mapper.map(book, UpdateShareableStatusResponse.class);
+    }
+
+    public UpdateArchivedStatusResponse toUpdatedArchivedStatusResponse(Book book) {
+        return mapper.map(book, UpdateArchivedStatusResponse.class);
+    }
+
+    public FindBookByIdResponse toFindBookByIdResponse(BookResponse bookResponse) {
+        return mapper.map(bookResponse, FindBookByIdResponse.class);
+    }
+
+    public FindAllBooksResponse toFindAllBooksResponse(PageResponse pageResponse) {
+        return FindAllBooksResponse
+                .builder()
+                .pageResponse(pageResponse)
+                .build();
+    }
+
 }
+
