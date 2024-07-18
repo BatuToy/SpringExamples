@@ -1,8 +1,8 @@
 package com.batu.book_network.convert;
 
-import com.batu.book_network.auth.RegistrationRequest;
-import com.batu.book_network.auth.RegistrationResponse;
-import com.batu.book_network.user.User;
+import com.batu.book_network.request.RegistrationRequest;
+import com.batu.book_network.response.RegistrationResponse;
+import com.batu.book_network.entites.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class Mapper {
 
     public User registerToUser(RegistrationRequest request){
         User user = modelMapper.map(request, User.class);
-        user.setPassWord(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         return user;
     }
 

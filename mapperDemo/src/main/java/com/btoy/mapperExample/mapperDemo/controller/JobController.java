@@ -63,7 +63,7 @@ public class JobController {
             return new ResponseEntity<>("Id with" + " " + jobId +" is NOT deleted!", HttpStatus.NOT_FOUND);
         }
     }
-
+x
     @PutMapping("/{jobId}")
     public ResponseEntity<JobDTO> upadteJob(@PathVariable Long jobId, @RequestBody Job job){
     var jobDTO = jobService.updateJob(jobId, job);
