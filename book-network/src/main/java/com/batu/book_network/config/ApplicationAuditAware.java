@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.batu.book_network.user.User;
+import com.batu.book_network.entites.User;
 public class ApplicationAuditAware implements AuditorAware<Long> {
 
     @Override
@@ -22,5 +22,4 @@ public class ApplicationAuditAware implements AuditorAware<Long> {
         // returns a optional type of null if it not then it returns the field we provide.
         return Optional.ofNullable(userPrinciples.getId());
     }
-
 }

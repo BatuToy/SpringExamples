@@ -4,10 +4,10 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class BookResponse {
+public class FindBookByIdResponse {
     private String title;
     private String authorName;
     private String isbn;
@@ -17,5 +17,4 @@ public class BookResponse {
     private byte[] cover;
     private boolean shareable;
     private boolean archived;
-
 }

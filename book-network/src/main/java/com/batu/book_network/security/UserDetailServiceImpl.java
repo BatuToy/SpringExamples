@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.batu.book_network.user.UserRepository;
+import com.batu.book_network.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,5 +20,4 @@ public class UserDetailServiceImpl implements UserDetailsService{
         return userRepository.findByEmail(userEmail)
             .orElseThrow(() -> new UsernameNotFoundException("User with this email is not found!"));
     }
-    
 }

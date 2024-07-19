@@ -5,10 +5,10 @@ import org.springframework.security.core.Authentication;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class ApproveReturnBorrowedBookRequest {
-    private Authentication connectedUser;
+@AllArgsConstructor
+@NoArgsConstructor
+public class BorrowBookRequest {
     private Long bookId;
+    private Authentication connectedUser;
 }
