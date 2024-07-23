@@ -2,8 +2,7 @@ package com.batu.book_network.entites;
 
 import  java.util.List;
 
-import com.batu.book_network.common.BaseEntity;
-import com.batu.book_network.enums.BookStatus;
+import com.batu.book_network.entites.enums.BookStatus;
 import com.batu.book_network.utils.FileUtils;
 
 import jakarta.persistence.*;
@@ -17,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-public class Book extends BaseEntity{
+public class Book extends BaseEntity {
     private String title;
     private String synopsys;
     private String isbn;
@@ -38,9 +37,7 @@ public class Book extends BaseEntity{
     @OneToMany(mappedBy = "book")
     private List<BookTransactionHistory> histories;
 
-
-    // @Transient is written for this field should not be persist in to the db.
-    @Transient
+    // TODO : BUNLARI SERVIS KATMANINA CEK - business logic işler orada olmalı !
     public double getRate(){
         if(feedbacks == null || feedbacks.isEmpty()){
             return 0.0;
@@ -54,7 +51,6 @@ public class Book extends BaseEntity{
 
     }
 
-    @Transient
     public byte[] getBookCoverPic() {
         return FileUtils.readFileFromLocation(getBookCover());
     }

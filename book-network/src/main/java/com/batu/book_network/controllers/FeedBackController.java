@@ -1,6 +1,6 @@
 package com.batu.book_network.controllers;
 
-import com.batu.book_network.impl.FeedBackServiceImpl;
+import com.batu.book_network.services.impl.FeedBackServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.batu.book_network.request.FeedbackRequest;
-import com.batu.book_network.request.FindAllFeedbacksByBookIdRequest;
-import com.batu.book_network.response.FindAllFeedbacksByBookIdResponse;
-import com.batu.book_network.response.SaveFeedBackResponse;
+import com.batu.book_network.config.request.FeedbackRequest;
+import com.batu.book_network.config.request.FindAllFeedbacksByBookIdRequest;
+import com.batu.book_network.config.response.FindAllFeedbacksByBookIdResponse;
+import com.batu.book_network.config.response.SaveFeedBackResponse;
 
 @RestController
 @RequiredArgsConstructor

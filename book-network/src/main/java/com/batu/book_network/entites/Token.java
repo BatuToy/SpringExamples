@@ -1,6 +1,6 @@
 package com.batu.book_network.entites;
 
-import com.batu.book_network.enums.TokenType;
+import com.batu.book_network.entites.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 

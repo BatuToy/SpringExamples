@@ -1,9 +1,9 @@
 package com.batu.book_network.services;
 
-import com.batu.book_network.request.FeedbackRequest;
-import com.batu.book_network.request.FindAllFeedbacksByBookIdRequest;
-import com.batu.book_network.response.SaveFeedBackResponse;
-import com.batu.book_network.response.FindAllFeedbacksByBookIdResponse;
+import com.batu.book_network.config.request.FeedbackRequest;
+import com.batu.book_network.config.request.FindAllFeedbacksByBookIdRequest;
+import com.batu.book_network.config.response.SaveFeedBackResponse;
+import com.batu.book_network.config.response.FindAllFeedbacksByBookIdResponse;
 import org.springframework.security.core.Authentication;
 
 public interface FeedbackService {

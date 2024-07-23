@@ -1,14 +1,14 @@
 package com.batu.book_network.controllers;
 
-import com.batu.book_network.request.ChangePasswordRequest;
-import com.batu.book_network.request.LoginRequest;
-import com.batu.book_network.response.AuthorizeManagerResponse;
-import com.batu.book_network.response.ChangePasswordResponse;
-import com.batu.book_network.response.LoginResponse;
-import com.batu.book_network.request.RegistrationRequest;
-import com.batu.book_network.response.RegistrationResponse;
-import com.batu.book_network.impl.AuthenticationServiceImpl;
-import com.batu.book_network.impl.RoleServiceImpl;
+import com.batu.book_network.config.request.ChangePasswordRequest;
+import com.batu.book_network.config.request.LoginRequest;
+import com.batu.book_network.config.response.AuthorizeManagerResponse;
+import com.batu.book_network.config.response.ChangePasswordResponse;
+import com.batu.book_network.config.response.LoginResponse;
+import com.batu.book_network.config.request.RegistrationRequest;
+import com.batu.book_network.config.response.RegistrationResponse;
+import com.batu.book_network.services.impl.AuthenticationServiceImpl;
+import com.batu.book_network.services.impl.RoleServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

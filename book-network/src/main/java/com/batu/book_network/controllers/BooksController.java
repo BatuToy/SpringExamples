@@ -1,9 +1,9 @@
 package com.batu.book_network.controllers;
 
-import com.batu.book_network.request.*;
-import com.batu.book_network.response.*;
-import com.batu.book_network.convert.BookMapper;
-import com.batu.book_network.impl.BookServiceImpl;
+import com.batu.book_network.config.request.*;
+import com.batu.book_network.config.response.*;
+import com.batu.book_network.config.mapper.BookMapper;
+import com.batu.book_network.services.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BooksController {
     
-    private final BookServiceImpl service;
+    private final BookService bookService;
     private final BookMapper bookMapper;
 
     @PostMapping
@@ -27,17 +27,16 @@ public class BooksController {
             @RequestBody @Valid BookRequest request,
             Authentication connectedUser
     ){
-        return ResponseEntity.ok(service.save(request, connectedUser));
+        return ResponseEntity.ok(bookService.save(request, connectedUser));
     }
 
-    @GetMapping(value = "/{book-id}")
+    @GetMapping(value = "{book-id}")
     public ResponseEntity<FindBookByIdResponse> findBookById(@PathVariable("book-id") Long bookId){
-        var request = bookMapper.toFindBookByIdRequest(bookId);
-        return ResponseEntity.ok(service.findBookById(request));
+        return ResponseEntity.ok(bookService.findBookById(bookId));
     }
     @PostMapping(value = "all-books")
     public ResponseEntity<FindAllBooksResponse> findAllBooks(@RequestBody FindAllBooksRequest request){
-        return ResponseEntity.ok(service.findAllBooks(request));
+        return ResponseEntity.ok(bookService.findAllBooks(request));
     }
 
     @PostMapping (value = "displayable-books")
@@ -45,7 +44,7 @@ public class BooksController {
         @RequestBody FindAllBooksRequest request,
         Authentication connectedUser
     ){
-        return ResponseEntity.ok(service.findAllDisplayableBooks(request, connectedUser));
+        return ResponseEntity.ok(bookService.findAllDisplayableBooks(request, connectedUser));
     }
 
     @GetMapping(value = "owner")
@@ -53,7 +52,7 @@ public class BooksController {
             @RequestBody FindAllBooksByOwnerRequest request,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.findAllBooksByOwner(request, connectedUser));
+        return ResponseEntity.ok(bookService.findAllBooksByOwner(request, connectedUser));
     }
 
     @GetMapping(value = "borrowed")
@@ -61,15 +60,15 @@ public class BooksController {
             @RequestBody FindAllBorrowedBooksRequest request,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.findAllBorrowedBooks(request, connectedUser));
+        return ResponseEntity.ok(bookService.findAllBorrowedBooks(request, connectedUser));
     }
 
-    @GetMapping(value = "/returned")
+    @GetMapping(value = "returned")
     public ResponseEntity<FindAllReturnedBooksResponse> findAllReturnedBooks(
             @RequestBody FindAllReturnedBooksRequest request,
             Authentication connectedUser
     ){
-        return ResponseEntity.ok(service.findAllReturnedBooks(request, connectedUser));
+        return ResponseEntity.ok(bookService.findAllReturnedBooks(request, connectedUser));
     }
 
     @PatchMapping(value = "shareable/{book-id}")
@@ -78,7 +77,7 @@ public class BooksController {
             Authentication connectedUser
     ) {
         var request = bookMapper.toUpdateShareableStatusRequest(bookId, connectedUser);
-        return ResponseEntity.ok(service.updateShareableStatus(request));
+        return ResponseEntity.ok(bookService.updateShareableStatus(request));
     }
 
     @PatchMapping("archived/{book-id}")
@@ -87,7 +86,7 @@ public class BooksController {
             Authentication connectedUser
     ) {
         var request = bookMapper.toUpdateArchivedStatusRequest(bookId, connectedUser);
-        return ResponseEntity.ok(service.updateArchivedStatus(request));
+        return ResponseEntity.ok(bookService.updateArchivedStatus(request));
     }
 
     @PostMapping(value = "borrow/{book-id}")
@@ -96,7 +95,7 @@ public class BooksController {
             Authentication connectedUser
     ) {
         var request = bookMapper.toBorrowBookRequest(bookId, connectedUser);
-        return ResponseEntity.ok(service.borrowBook(request));
+        return ResponseEntity.ok(bookService.borrowBook(request));
     }
 
     @PatchMapping(value = "borrow/return/{book-id}")
@@ -105,7 +104,7 @@ public class BooksController {
             Authentication connectedUser
     ) {
         var request = bookMapper.toReturnBorrowedBook(bookId, connectedUser);
-        return ResponseEntity.ok(service.returnBorrowedBook(request));
+        return ResponseEntity.ok(bookService.returnBorrowedBook(request));
     }
 
     @PatchMapping(value = "borrow/return/approve/{book-id}")
@@ -114,7 +113,7 @@ public class BooksController {
             Authentication connectedUser
     ) {
         var request = bookMapper.toApproveReturnBorrowedBookRequest(bookId, connectedUser);
-        return ResponseEntity.ok(service.approveReturnBorrowedBook(request));
+        return ResponseEntity.ok(bookService.approveReturnBorrowedBook(request));
     }
 
     @PostMapping(value = "cover/{book-id}", consumes = "multipart/form-data")
@@ -124,7 +123,7 @@ public class BooksController {
             @RequestPart("file") MultipartFile file,
             Authentication connectedUser) {
         var request = bookMapper.toUploadBookCoverPictureRequest(bookId, file);
-        return ResponseEntity.ok(service.uploadBookCoverPicture(request, connectedUser));
+        return ResponseEntity.ok(bookService.uploadBookCoverPicture(request, connectedUser));
     }
 
 }

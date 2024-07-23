@@ -1,12 +1,12 @@
 package com.batu.book_network.services;
 
-import com.batu.book_network.request.ChangePasswordRequest;
-import com.batu.book_network.request.LoginRequest;
-import com.batu.book_network.response.AuthorizeManagerResponse;
-import com.batu.book_network.response.ChangePasswordResponse;
-import com.batu.book_network.response.LoginResponse;
-import com.batu.book_network.request.RegistrationRequest;
-import com.batu.book_network.response.RegistrationResponse;
+import com.batu.book_network.config.request.ChangePasswordRequest;
+import com.batu.book_network.config.request.LoginRequest;
+import com.batu.book_network.config.response.AuthorizeManagerResponse;
+import com.batu.book_network.config.response.ChangePasswordResponse;
+import com.batu.book_network.config.response.LoginResponse;
+import com.batu.book_network.config.request.RegistrationRequest;
+import com.batu.book_network.config.response.RegistrationResponse;
 import jakarta.mail.MessagingException;
 import org.springframework.security.core.Authentication;
 

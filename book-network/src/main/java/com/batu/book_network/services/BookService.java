@@ -1,12 +1,12 @@
 package com.batu.book_network.services;
 
-import com.batu.book_network.request.*;
-import com.batu.book_network.response.*;
+import com.batu.book_network.config.request.*;
+import com.batu.book_network.config.response.*;
 import org.springframework.security.core.Authentication;
 
 public interface BookService {
     SaveBookResponse save(BookRequest request, Authentication connectedUser);
-    FindBookByIdResponse findBookById(FindBookByIdRequest request);
+    FindBookByIdResponse findBookById(Long id);
     FindAllDisplayableBooksResponse findAllDisplayableBooks(FindAllBooksRequest request, Authentication connectedUser);
     FindAllBooksResponse findAllBooks(FindAllBooksRequest request);
     FindAllBooksByOwnerResponse findAllBooksByOwner(FindAllBooksByOwnerRequest request, Authentication connectedUser);

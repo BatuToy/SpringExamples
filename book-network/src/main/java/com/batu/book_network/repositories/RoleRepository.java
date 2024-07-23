@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface RoleRepository extends JpaRepository<Role, Long>{
-    boolean existsRoleByUserId(@Param("userId") Long userId);
+    boolean existsRoleByUserId(Long userId);
 }

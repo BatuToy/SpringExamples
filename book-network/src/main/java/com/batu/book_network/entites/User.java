@@ -9,7 +9,9 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @Entity
-@Builder
+@SuperBuilder
 @Table(name = "\"user\"")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,7 +27,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails, Principal{
     @Serial
     private static final long serialVersionUID = -1209714198654368601L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,18 +40,22 @@ public class User implements UserDetails, Principal{
     @Column(name = "password")
     private String passWord;
 
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDate createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDate lastModifiedDate;
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
     @OneToMany(mappedBy = "user")
     private List<Token> jwtTokens;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-    @CreatedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 
 
     @Override
