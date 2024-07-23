@@ -1,6 +1,6 @@
 package com.batu.book_network.entites;
 
-import com.batu.book_network.enums.TokenType;
+import com.batu.book_network.entites.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +17,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
+    private String jwtToken;
 
     @Enumerated(EnumType.STRING)
     private TokenType tokenType;

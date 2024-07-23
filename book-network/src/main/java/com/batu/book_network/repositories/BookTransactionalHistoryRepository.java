@@ -19,6 +19,7 @@ public interface BookTransactionalHistoryRepository extends JpaRepository<BookTr
             AND  history.returnApproved = false
            """)
     Optional<BookTransactionHistory> findByBookIdAndUserId(@Param("bookId") Long bookId,@Param("userId") Long userId);
+
     @Query("""
            SELECT  history
            FROM BookTransactionHistory history
