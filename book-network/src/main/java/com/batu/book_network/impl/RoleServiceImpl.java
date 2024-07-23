@@ -1,4 +1,4 @@
-package com.batu.book_network.serviceImpl;
+package com.batu.book_network.impl;
 
 import com.batu.book_network.entites.Role;
 import com.batu.book_network.exception.OperationNotPermittedException;

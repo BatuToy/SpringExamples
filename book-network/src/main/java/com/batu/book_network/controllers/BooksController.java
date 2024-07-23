@@ -3,7 +3,7 @@ package com.batu.book_network.controllers;
 import com.batu.book_network.request.*;
 import com.batu.book_network.response.*;
 import com.batu.book_network.convert.BookMapper;
-import com.batu.book_network.services.BookService;
+import com.batu.book_network.impl.BookServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BooksController {
     
-    private final BookService service;
+    private final BookServiceImpl service;
     private final BookMapper bookMapper;
 
     @PostMapping

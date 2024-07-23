@@ -1,6 +1,5 @@
 package com.batu.book_network.security;
 
-import com.batu.book_network.entites.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

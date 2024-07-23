@@ -2,7 +2,7 @@ package com.batu.book_network.security;
 
 import java.io.IOException;
 
-import com.batu.book_network.services.TokenService;
+import com.batu.book_network.impl.TokenServiceImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter{
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final TokenService tokenService;
+    private final TokenServiceImpl tokenServiceImpl;
 
     @Override
     protected void doFilterInternal(
@@ -47,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter{
             userEmail = jwtService.extractUserName(jwtToken);
             if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-                boolean isTokenValid = tokenService.isTokenValid(jwtToken);
+                boolean isTokenValid = tokenServiceImpl.isTokenValid(jwtToken);
                 if(jwtService.isTokenValid(jwtToken, userDetails) && isTokenValid){
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

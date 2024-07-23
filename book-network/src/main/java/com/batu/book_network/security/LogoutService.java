@@ -1,7 +1,6 @@
 package com.batu.book_network.security;
 
-import com.batu.book_network.repositories.TokenRepository;
-import com.batu.book_network.services.TokenService;
+import com.batu.book_network.impl.TokenServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
 
-    private final TokenService tokenService;
+    private final TokenServiceImpl tokenServiceImpl;
 
     @Override
     public void logout(HttpServletRequest request,
@@ -26,11 +25,11 @@ public class LogoutService implements LogoutHandler {
             return;
         }
         jwt = authHeader.substring(7);
-        var token = tokenService.findByToken(jwt);
+        var token = tokenServiceImpl.findByToken(jwt);
         if(token != null){
             token.setExpired(true);
             token.setRevoked(true);
-            tokenService.save(token);
+            tokenServiceImpl.save(token);
             // deletes the token from user.
             SecurityContextHolder.clearContext();
         }

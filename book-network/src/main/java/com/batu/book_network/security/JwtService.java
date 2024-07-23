@@ -2,8 +2,8 @@ package com.batu.book_network.security;
 
 import java.security.Key;
 import java.sql.Date;
-import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import io.jsonwebtoken.MalformedJwtException;
@@ -31,11 +31,11 @@ public class JwtService {
     }
 
     public <T> T extractClaim(String jwtToken, Function<Claims, T> claimResolver) {
-        final Claims claims = extractAllClaims(jwtToken);
-        if(claims == null){
-            throw new MalformedJwtException("boom!");
+        final Optional<Claims> claims = extractAllClaims(jwtToken);
+        if(claims.isEmpty()){
+            throw new MalformedJwtException("No claim was attached!");
         }
-        return claimResolver.apply(claims);
+        return claimResolver.apply(claims.get());
     }
     public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
         return buildToken(claims, userDetails, jwtExpiration);
@@ -61,19 +61,20 @@ public class JwtService {
                     .compact();
     }
 
-    private Claims extractAllClaims(String jwtToken){
+    private Optional<Claims> extractAllClaims(String jwtToken){
         log.info("Jwt: {}", jwtToken);
         try {
             log.info("Jwt parsed successfully!");
-            return Jwts
+            Claims claims = Jwts
                     .parserBuilder()
                     .setSigningKey(getSignKey())
                     .build()
                     .parseClaimsJws(jwtToken)
                     .getBody();
+            return Optional.of(claims);
         }catch (MalformedJwtException e){
             log.warn(e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 

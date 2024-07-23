@@ -7,8 +7,8 @@ import com.batu.book_network.response.ChangePasswordResponse;
 import com.batu.book_network.response.LoginResponse;
 import com.batu.book_network.request.RegistrationRequest;
 import com.batu.book_network.response.RegistrationResponse;
-import com.batu.book_network.services.AuthenticationService;
-import com.batu.book_network.services.RoleService;
+import com.batu.book_network.impl.AuthenticationServiceImpl;
+import com.batu.book_network.impl.RoleServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,8 @@ public class AuthenticationController {
 
     private static final String DELETE_ROLE_MESSAGE = "Role has been deleted.";
 
-    private final AuthenticationService service;
-    private final RoleService roleService;
+    private final AuthenticationServiceImpl service;
+    private final RoleServiceImpl roleServiceImpl;
 
     @PostMapping("register")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -56,7 +56,7 @@ public class AuthenticationController {
 
     @DeleteMapping
     public ResponseEntity<String> deleteRole(Authentication connectedUser){
-        roleService.deleteRole(connectedUser);
+        roleServiceImpl.deleteRole(connectedUser);
         return ResponseEntity.ok(DELETE_ROLE_MESSAGE);
     }
 

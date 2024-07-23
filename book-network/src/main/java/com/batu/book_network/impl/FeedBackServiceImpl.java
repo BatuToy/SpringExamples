@@ -1,4 +1,4 @@
-package com.batu.book_network.serviceImpl;
+package com.batu.book_network.impl;
 
 import com.batu.book_network.entites.Feedback;
 import com.batu.book_network.repositories.FeedbackRepository;

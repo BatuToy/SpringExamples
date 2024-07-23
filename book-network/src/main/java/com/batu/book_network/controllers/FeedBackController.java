@@ -1,6 +1,6 @@
 package com.batu.book_network.controllers;
 
-import com.batu.book_network.services.FeedBackService;
+import com.batu.book_network.impl.FeedBackServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import com.batu.book_network.response.SaveFeedBackResponse;
 @Tag(name = "Feedback")
 public class FeedBackController {
 
-    private final FeedBackService service;
+    private final FeedBackServiceImpl service;
 
     @PostMapping
     public ResponseEntity<SaveFeedBackResponse> save(@RequestBody FeedbackRequest request, Authentication connectedUser){

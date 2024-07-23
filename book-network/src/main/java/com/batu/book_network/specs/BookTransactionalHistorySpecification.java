@@ -9,6 +9,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class BookTransactionalHistorySpecification {
 
+    private BookTransactionalHistorySpecification(){
+        throw new IllegalStateException("Spec class");
+    }
+
+
     public static Specification<BookTransactionHistory> withBorrowed(Long userId) {
         return new Specification<BookTransactionHistory>() {
             @Override

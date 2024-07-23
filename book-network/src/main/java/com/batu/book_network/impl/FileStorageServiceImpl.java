@@ -1,4 +1,4 @@
-package com.batu.book_network.serviceImpl;
+package com.batu.book_network.impl;
 
 import com.batu.book_network.services.FileStorageService;
 import lombok.NonNull;

@@ -8,12 +8,13 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BookSpecification {
-    // This helps to write a specification to the find the all books that is owned by himself.
-    // Instead of writing a query in repo we can implement our specs constraints like this. Well Learned!
-    // findAllDisplayableBooks with not ownerId
+
+    private BookSpecification(){
+        throw new IllegalStateException("Utility Class!");
+    }
+
     public static Specification<Book> withDisplayable(Long ownerId){
         return new Specification<Book>() {
-            // Ain't see the spec in here.
             @Override
             public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Predicate isArchived = criteriaBuilder.isFalse(root.get("archived"));
@@ -23,7 +24,7 @@ public class BookSpecification {
             }
         };
     }
-    // findAllDisplayableBooks with ownerId
+
     public static Specification<Book> withOwnerId(Long ownerId){
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("owner").get("id"), ownerId);
     }

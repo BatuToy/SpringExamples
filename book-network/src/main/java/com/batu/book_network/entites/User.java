@@ -14,14 +14,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @Entity
 @Builder
 @Table(name = "\"user\"")
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal{
@@ -45,7 +43,7 @@ public class User implements UserDetails, Principal{
     private List<Role> roles;
 
     @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    private List<Token> jwtTokens;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

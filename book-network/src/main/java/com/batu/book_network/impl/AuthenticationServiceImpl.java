@@ -1,4 +1,4 @@
-package com.batu.book_network.serviceImpl;
+package com.batu.book_network.impl;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;

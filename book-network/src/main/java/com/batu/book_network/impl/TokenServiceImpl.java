@@ -1,4 +1,4 @@
-package com.batu.book_network.serviceImpl;
+package com.batu.book_network.impl;
 
 import com.batu.book_network.entites.Token;
 import com.batu.book_network.entites.User;
@@ -25,7 +25,7 @@ public class TokenServiceImpl implements TokenService {
         return Token
                 .builder()
                 .user(user)
-                .token(jwtToken)
+                .jwtToken(jwtToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)

@@ -21,7 +21,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     @Query("""
             SELECT token
             FROM Token token
-            WHERE token.token = :jwt
+            WHERE token.jwtToken = :jwt
             """)
     Optional<Token> findByToken(@Param("jwt") String token);
 

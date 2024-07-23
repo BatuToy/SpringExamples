@@ -17,7 +17,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
+    private String jwtToken;
 
     @Enumerated(EnumType.STRING)
     private TokenType tokenType;
