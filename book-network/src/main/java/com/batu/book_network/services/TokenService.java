@@ -1,7 +1,10 @@
 package com.batu.book_network.services;
 
 import com.batu.book_network.entites.Token;
+import com.batu.book_network.entites.User;
+import com.batu.book_network.enums.TokenType;
 import com.batu.book_network.repositories.TokenRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,21 +12,38 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenService {
 
+    private static final String TOKEN_NOT_FOUND = "No such token found!";
+
     private final TokenRepository tokenRepository;
 
-    public Token saveToken(Token token){
-        return tokenRepository.save(token);
+    public void save(Token token){
+        tokenRepository.save(token);
     }
 
-    public Token findByToken(String activationCode){
-        return tokenRepository.findByToken(activationCode).orElseThrow(() -> new IllegalStateException("Token not initialized!"));
+    public Token addToken(User user, String jwtToken){
+        return Token
+                .builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
     }
 
-    public void deleteToken(Token token){
-        tokenRepository.delete(token);
+    public void revokeAllTokens(User user){
+        tokenRepository.findAllValidTokensByUserId(user.getId()).forEach(token -> {
+            token.setRevoked(true);
+            token.setExpired(true);
+            save(token);
+        });
     }
 
-    public void deleteTokenById(Long id){
-        tokenRepository.deleteById(id);
+    public boolean isTokenValid(String jwtToken){
+        return tokenRepository.findByToken(jwtToken).map(t -> !t.isExpired() && !t.isRevoked()).orElse(false);
+    }
+
+    public Token findByToken(String jwtToken) {
+        return tokenRepository.findByToken(jwtToken).orElseThrow( () -> new EntityNotFoundException(TOKEN_NOT_FOUND));
     }
 }

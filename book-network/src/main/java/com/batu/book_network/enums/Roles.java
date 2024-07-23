@@ -1,5 +1,8 @@
-package com.batu.book_network.role;
+package com.batu.book_network.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Roles {
 
     ROLE_USER("ROLE_USER"),

@@ -41,10 +41,9 @@ public class FeedBackService {
     public SaveFeedBackResponse save(FeedbackRequest request, Authentication connectedUser) {
         Book book = bookRepository.findById(request.bookId())
             .orElseThrow( () -> new EntityNotFoundException(Const.BOOK_NOT_FOUND + request.bookId()));
-
         if(book.isArchived()){
             throw new OperationNotPermittedException("Book was archived!");
-        } else if(!book.isSharable()) {
+        } else if(!book.isShareable()) {
             throw new OperationNotPermittedException("Book is not shareable!");
         }
         User user = (User)connectedUser.getPrincipal();

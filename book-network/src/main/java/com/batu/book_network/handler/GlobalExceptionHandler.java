@@ -3,9 +3,11 @@ package com.batu.book_network.handler;
 import com.batu.book_network.exception.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -106,6 +108,30 @@ public class GlobalExceptionHandler {
                         ExceptionResponse
                                 .builder()
                                 .error(exp.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ExceptionResponse> handleAuthenticationException(AuthenticationException exp){
+        return ResponseEntity.status(UNAUTHORIZED)
+                .body(
+                        ExceptionResponse
+                                .builder()
+                                .businessExceptionDescription("Dont have a permission to make a request!")
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ExceptionResponse> handleAuthorizationException(AccessDeniedException exp){
+        return ResponseEntity.status(FORBIDDEN)
+                .body(
+                        ExceptionResponse
+                                .builder()
+                                .error(exp.getMessage())
+                                .businessExceptionDescription("Not authorized!")
                                 .build()
                 );
     }

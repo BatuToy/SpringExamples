@@ -48,14 +48,14 @@ public class EmailService {
             StandardCharsets.UTF_8.name()
             );
 
-        Map<String, Object> properites = new HashMap<>();
-        properites.put("username", userName);
-        properites.put("confirmationUrl", confirmationUrl);
-        properites.put("activation_code", activationCode);
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", userName);
+        properties.put("confirmationUrl", confirmationUrl);
+        properties.put("activation_code", activationCode);
 
         // Object context is holding the properties that will be passed for the Thymeleaf template.
         Context context = new Context();
-        context.setVariables(properites);
+        context.setVariables(properties);
 
         helper.setFrom("batu_toy@hotmail.com");
         helper.setTo(to);
@@ -65,7 +65,7 @@ public class EmailService {
         String template = templateEngine.process(templateName, context);
 
         helper.setText(template, true);
-        // Last stop. Wait and analyze the code for further anxious behavours.
+        // Last stop. Wait and analyze the code for further anxious behaviors.
         mailSender.send(mimeMessage);
     }   
 }

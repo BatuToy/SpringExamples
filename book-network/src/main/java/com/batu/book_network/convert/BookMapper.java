@@ -74,15 +74,22 @@ public class BookMapper {
         mapper.typeMap(Feedback.class, SaveFeedBackResponse.class).addMappings(feedbackMapper -> {
             feedbackMapper.map(Feedback::getId, SaveFeedBackResponse::setFeedBackId);
         });
+
+        // BookRequest -> Book(Entity)
+        mapper.typeMap(BookRequest.class, Book.class).addMappings( mapper -> {
+            mapper.map(BookRequest::getAuthorName, Book::setAuthorName);
+            mapper.map(BookRequest::isShareable, Book::setShareable);
+            mapper.map(BookRequest::getSynopsis, Book::setSynopsys);
+            mapper.map(BookRequest::getIsbn, Book::setIsbn);
+            mapper.map(BookRequest::getTitle, Book::setTitle);
+        });
     }
     // Should we upload a picture with this request?
     public UploadBookCoverPictureRequest toUploadBookCoverPictureRequest(Long bookId,
-            Authentication connectedUser,
             MultipartFile file) {
         return UploadBookCoverPictureRequest
                 .builder()
                 .bookId(bookId)
-                .connectedUser(connectedUser)
                 .file(file)
                 .build();
     }
@@ -144,14 +151,6 @@ public class BookMapper {
                 .build();
     }
 
-    public SaveBookRequest toSaveBookRequest(BookRequest request, Authentication connectedUser) {
-        return SaveBookRequest
-                .builder()
-                .bookRequest(request)
-                .connectedUser(connectedUser)
-                .build();
-    }
-
     public Book requestToBook(BookRequest request) {
         return mapper.map(request, Book.class);
     }
@@ -196,8 +195,8 @@ public class BookMapper {
         return mapper.map(bookResponse, FindBookByIdResponse.class);
     }
 
-    public FindAllBooksResponse toFindAllBooksResponse(PageResponse<BookResponse> pageResponse) {
-        return FindAllBooksResponse
+    public FindAllDisplayableBooksResponse toFindAllDisplayableBooksResponse(PageResponse<BookResponse> pageResponse) {
+        return FindAllDisplayableBooksResponse
                 .builder()
                 .pageResponse(pageResponse)
                 .build();
@@ -243,5 +242,12 @@ public class BookMapper {
     public FindAllBorrowedBooksResponse toFindAllBorrowedBooksResponse(
             PageResponse<BorrowedBookResponse> pageResponse) {
         return FindAllBorrowedBooksResponse.builder().pageResponse(pageResponse).build();
+    }
+
+    public FindAllBooksResponse toFindAllBooksResponse(PageResponse<BookResponse> pageResponse) {
+        return FindAllBooksResponse
+                .builder()
+                .pageResponse(pageResponse)
+                .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.batu.book_network.services;
 
-import com.batu.book_network.entites.Token;
+import com.batu.book_network.entites.Activation;
 import com.batu.book_network.entites.User;
 import com.batu.book_network.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User saveUser(User user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
@@ -26,7 +26,7 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User not found"));
     }
 
-    public User getUserByToken(Token token){
-        return userRepository.findById(token.getUser().getId()).orElseThrow(() -> new IllegalStateException("User not found"));
+    public User getUserByToken(Activation activation){
+        return userRepository.findById(activation.getUser().getId()).orElseThrow(() -> new IllegalStateException("User not found"));
     }
 }

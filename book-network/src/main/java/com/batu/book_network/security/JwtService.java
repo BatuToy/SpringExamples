@@ -2,10 +2,12 @@ package com.batu.book_network.security;
 
 import java.security.Key;
 import java.sql.Date;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 
+import io.jsonwebtoken.MalformedJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
+@Slf4j
 @Service
 public class JwtService {
     
@@ -30,14 +32,11 @@ public class JwtService {
 
     public <T> T extractClaim(String jwtToken, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(jwtToken);
+        if(claims == null){
+            throw new MalformedJwtException("boom!");
+        }
         return claimResolver.apply(claims);
     }
-
-    public String generateToken(UserDetails userDetails) 
-    {
-        return generateToken(new HashMap<>(), userDetails);
-    }
-
     public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
         return buildToken(claims, userDetails, jwtExpiration);
     }
@@ -63,16 +62,23 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String jwtToken){
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignKey())
-                .build()
-                .parseClaimsJwt(jwtToken)
-                .getBody();
+        log.info("Jwt: {}", jwtToken);
+        try {
+            log.info("Jwt parsed successfully!");
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
+        }catch (MalformedJwtException e){
+            log.warn(e.getMessage());
+            return null;
+        }
     }
 
     public boolean isTokenValid(String jwtToken, UserDetails userDetails){
-        final String userName = extractUserName(secretKey);
+        final String userName = extractUserName(jwtToken);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
     }
 

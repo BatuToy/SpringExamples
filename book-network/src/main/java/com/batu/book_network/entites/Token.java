@@ -1,33 +1,31 @@
 package com.batu.book_network.entites;
 
-import java.time.LocalDateTime;
-
+import com.batu.book_network.enums.TokenType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
 
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "token")
 public class Token {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String token;
-    private LocalDateTime createdAt;
-    private LocalDateTime expiresAt;
-    private LocalDateTime validatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private TokenType tokenType;
+
+    private boolean expired;
+    private boolean revoked;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    //User can't be null and declare in the Token table as a "userId"
+    @JoinColumn(name = "user_id")
     private User user;
 }

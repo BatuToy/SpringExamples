@@ -7,11 +7,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationResponse {
-
-    private String email;
+@Builder
+public class AuthorizeManagerResponse {
     private String fullName;
     private List<Role> roles;
-
 }

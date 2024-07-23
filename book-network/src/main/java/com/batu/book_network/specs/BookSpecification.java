@@ -13,6 +13,7 @@ public class BookSpecification {
     // findAllDisplayableBooks with not ownerId
     public static Specification<Book> withDisplayable(Long ownerId){
         return new Specification<Book>() {
+            // Ain't see the spec in here.
             @Override
             public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Predicate isArchived = criteriaBuilder.isFalse(root.get("archived"));
@@ -22,7 +23,7 @@ public class BookSpecification {
             }
         };
     }
-    // findAllBooks with ownerId
+    // findAllDisplayableBooks with ownerId
     public static Specification<Book> withOwnerId(Long ownerId){
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("owner").get("id"), ownerId);
     }
