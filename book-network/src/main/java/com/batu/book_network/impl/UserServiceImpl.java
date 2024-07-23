@@ -1,14 +1,15 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import com.batu.book_network.entites.Activation;
 import com.batu.book_network.entites.User;
 import com.batu.book_network.repositories.UserRepository;
+import com.batu.book_network.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -26,7 +27,7 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User not found"));
     }
 
-    public User getUserByToken(Activation activation){
+    public User getUserByActivationCode(Activation activation){
         return userRepository.findById(activation.getUser().getId()).orElseThrow(() -> new IllegalStateException("User not found"));
     }
 }

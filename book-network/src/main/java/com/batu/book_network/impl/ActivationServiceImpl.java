@@ -1,13 +1,14 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import com.batu.book_network.entites.Activation;
 import com.batu.book_network.repositories.ActivationRepository;
+import com.batu.book_network.services.ActivationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ActivationService {
+public class ActivationServiceImpl implements ActivationService{
 
     private final ActivationRepository activationRepository;
 
@@ -21,9 +22,5 @@ public class ActivationService {
 
     public void deleteActivationCode(Activation activation){
         activationRepository.delete(activation);
-    }
-
-    public void deleteActivationCodeById(Long id){
-        activationRepository.deleteById(id);
     }
 }

@@ -1,7 +1,8 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import com.batu.book_network.entites.Feedback;
 import com.batu.book_network.repositories.FeedbackRepository;
+import com.batu.book_network.services.FeedbackService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
@@ -32,7 +33,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 @RequiredArgsConstructor
 @Service
-public class FeedBackService {
+public class FeedBackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
     private final BookRepository bookRepository;

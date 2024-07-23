@@ -1,4 +1,4 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import com.batu.book_network.entites.Book;
 import com.batu.book_network.repositories.BookRepository;
@@ -9,6 +9,8 @@ import com.batu.book_network.convert.BookMapper;
 import com.batu.book_network.exception.OperationNotPermittedException;
 import com.batu.book_network.entites.BookTransactionHistory;
 import com.batu.book_network.repositories.BookTransactionalHistoryRepository;
+import com.batu.book_network.services.BookService;
+import com.batu.book_network.services.FileStorageService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
@@ -28,7 +30,7 @@ import static com.batu.book_network.utils.Const.CREATED_DATE;
 
 @Service
 @RequiredArgsConstructor
-public class BookService {
+public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookTransactionalHistoryRepository historyRepository;
@@ -130,7 +132,6 @@ public class BookService {
         } else if (!book.isShareable()) {
             throw new OperationNotPermittedException("Book is not shareable can not be reachable at the moment!");
         }
-        // todo add enum status in book.
         User user = (User) request.getConnectedUser().getPrincipal();
         if(Objects.equals(book.getOwner().getId(), user.getId())){
             throw new OperationNotPermittedException("You can't borrow your own book!");

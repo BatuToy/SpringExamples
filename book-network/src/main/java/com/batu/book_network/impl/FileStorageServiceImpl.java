@@ -1,5 +1,6 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
+import com.batu.book_network.services.FileStorageService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import static java.io.File.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class FileStorageService {
+public class FileStorageServiceImpl implements FileStorageService {
 
     @Value("${application.file.upload.photos-output-path}")
     private String fileUploadPath;

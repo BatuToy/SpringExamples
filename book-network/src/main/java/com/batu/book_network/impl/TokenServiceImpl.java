@@ -1,16 +1,17 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import com.batu.book_network.entites.Token;
 import com.batu.book_network.entites.User;
 import com.batu.book_network.enums.TokenType;
 import com.batu.book_network.repositories.TokenRepository;
+import com.batu.book_network.services.TokenService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class TokenServiceImpl implements TokenService {
 
     private static final String TOKEN_NOT_FOUND = "No such token found!";
 

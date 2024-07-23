@@ -1,4 +1,4 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -18,6 +18,7 @@ import com.batu.book_network.entites.Activation;
 import com.batu.book_network.entites.User;
 import com.batu.book_network.enums.Roles;
 import com.batu.book_network.security.JwtService;
+import com.batu.book_network.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,7 @@ import jakarta.mail.MessagingException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     // declare a const variable for userRole enum
 

@@ -1,10 +1,11 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.batu.book_network.email.EmailTemplateName;
+import com.batu.book_network.services.EmailService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailServiceImpl implements EmailService {
     
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;

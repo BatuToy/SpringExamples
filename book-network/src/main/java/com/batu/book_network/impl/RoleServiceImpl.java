@@ -1,4 +1,4 @@
-package com.batu.book_network.services;
+package com.batu.book_network.serviceImpl;
 
 import com.batu.book_network.entites.Role;
 import com.batu.book_network.exception.OperationNotPermittedException;
@@ -6,6 +6,7 @@ import com.batu.book_network.repositories.RoleRepository;
 import com.batu.book_network.repositories.UserRepository;
 import com.batu.book_network.enums.Roles;
 import com.batu.book_network.entites.User;
+import com.batu.book_network.services.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService {
+public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
