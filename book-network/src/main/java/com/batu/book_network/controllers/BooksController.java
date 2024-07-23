@@ -1,14 +1,9 @@
 package com.batu.book_network.controllers;
 
-import com.batu.book_network.request.BookRequest;
-import com.batu.book_network.request.FindAllBooksByOwnerRequest;
-import com.batu.book_network.request.FindAllBooksRequest;
-import com.batu.book_network.request.FindAllBorrowedBooksRequest;
-import com.batu.book_network.request.FindAllReturnedBooksRequest;
+import com.batu.book_network.request.*;
 import com.batu.book_network.response.*;
 import com.batu.book_network.convert.BookMapper;
 import com.batu.book_network.services.BookService;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -29,27 +24,28 @@ public class BooksController {
 
     @PostMapping
     public ResponseEntity<SaveBookResponse> save(
-        @RequestBody @Valid BookRequest request,
-        Authentication connectedUser
+            @RequestBody @Valid BookRequest request,
+            Authentication connectedUser
     ){
-
-        return service.save(bookMapper.toSaveBookRequest(request, connectedUser)) == null ?
-                ResponseEntity.badRequest().build() :
-                ResponseEntity.ok(service.save(  bookMapper.toSaveBookRequest(request, connectedUser)));
+        return ResponseEntity.ok(service.save(request, connectedUser));
     }
 
-    @GetMapping(value = "{book-id}")
+    @GetMapping(value = "/{book-id}")
     public ResponseEntity<FindBookByIdResponse> findBookById(@PathVariable("book-id") Long bookId){
         var request = bookMapper.toFindBookByIdRequest(bookId);
         return ResponseEntity.ok(service.findBookById(request));
     }
+    @PostMapping(value = "all-books")
+    public ResponseEntity<FindAllBooksResponse> findAllBooks(@RequestBody FindAllBooksRequest request){
+        return ResponseEntity.ok(service.findAllBooks(request));
+    }
 
-    @GetMapping
-    public ResponseEntity<FindAllBooksResponse> findAllBooks(
+    @PostMapping (value = "displayable-books")
+    public ResponseEntity<FindAllDisplayableBooksResponse> findAllDisplayableBooks(
         @RequestBody FindAllBooksRequest request,
         Authentication connectedUser
     ){
-        return ResponseEntity.ok(service.findAllBooks(request, connectedUser));
+        return ResponseEntity.ok(service.findAllDisplayableBooks(request, connectedUser));
     }
 
     @GetMapping(value = "owner")
@@ -124,11 +120,11 @@ public class BooksController {
     @PostMapping(value = "cover/{book-id}", consumes = "multipart/form-data")
     public ResponseEntity<UploadBookCoverPictureResponse> uploadBookCoverPicture(
             @PathVariable("book-id") Long bookId,
-            @Parameter()
-            @RequestPart MultipartFile file,
+            //@Parameter()
+            @RequestPart("file") MultipartFile file,
             Authentication connectedUser) {
-        var request = bookMapper.toUploadBookCoverPictureRequest(bookId, connectedUser,file);
-        var  response = service.uploadBookCoverPicture(request);
-        return ResponseEntity.ok(response);
+        var request = bookMapper.toUploadBookCoverPictureRequest(bookId, file);
+        return ResponseEntity.ok(service.uploadBookCoverPicture(request, connectedUser));
     }
+
 }

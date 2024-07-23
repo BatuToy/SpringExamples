@@ -22,5 +22,5 @@ public class LoginRequest {
     @NotNull(message = "Password cannot be null")
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, message = "Password should be at least 8 characters long")
-    private String password;
+    private String passWord;
 }

@@ -10,5 +10,5 @@ import org.springframework.security.core.Authentication;
 @Builder
 public class SaveBookRequest {
     private BookRequest bookRequest;
-    private Authentication connectedUser;
+    Authentication connectedUser;
 }

@@ -34,11 +34,11 @@ public class BookService {
     private final BookTransactionalHistoryRepository historyRepository;
     private final BookTransactionalHistoryRepository bookTransactionalHistoryRepository;
     private final FileStorageService fileStorageService;
-    // add const class
 
-    public SaveBookResponse save(SaveBookRequest request) {
-        User user = (User) request.getConnectedUser().getPrincipal();
-        var book = bookMapper.requestToBook(request.getBookRequest());
+    // Admin specific
+    public SaveBookResponse save(BookRequest request, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        var book = bookMapper.requestToBook(request);
         book.setOwner(user);
         return bookMapper.toSaveBookResponse(bookRepository.save(book));
     }
@@ -50,10 +50,19 @@ public class BookService {
         return bookMapper.toFindBookByIdResponse(bookResponse);
     }
 
-    public FindAllBooksResponse findAllBooks(FindAllBooksRequest request, Authentication connectedUser){
+    public FindAllDisplayableBooksResponse findAllDisplayableBooks(FindAllBooksRequest request, Authentication connectedUser){
         User user = (User)connectedUser.getPrincipal();
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(CREATED_DATE).descending());
         Page<Book> books = bookRepository.findAll(withDisplayable(user.getId()), pageable);
+        List<BookResponse> bookResponse = books.stream()
+                .map(bookMapper::bookToResponse)
+                .toList();
+        return bookMapper.toFindAllDisplayableBooksResponse(PageResponse.from( new PageImpl<>(bookResponse, pageable, books.getTotalElements())));
+    }
+
+    public FindAllBooksResponse findAllBooks(FindAllBooksRequest request){
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(CREATED_DATE).descending());
+        Page<Book> books = bookRepository.findAll(pageable);
         List<BookResponse> bookResponse = books.stream()
                 .map(bookMapper::bookToResponse)
                 .toList();
@@ -69,7 +78,7 @@ public class BookService {
                 .toList();
         return bookMapper.toFindAllBooksByOwnerResponse(PageResponse.from(new PageImpl<>(booksResponse, pageable, books.getTotalElements())));
     }
-    // todo Implement this one.
+
     public FindAllBorrowedBooksResponse findAllBorrowedBooks(FindAllBorrowedBooksRequest request, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(CREATED_DATE));
@@ -98,7 +107,7 @@ public class BookService {
         if (!Objects.equals(book.getOwner().getId(), user.getId())){
             throw new OperationNotPermittedException("This book is not owned bu this user!");
         }
-        book.setSharable(!book.isSharable());
+        book.setShareable(!book.isShareable());
         return bookMapper.toUpdateShareableStatusResponse(bookRepository.save(book));
     }
 
@@ -116,8 +125,10 @@ public class BookService {
     public BorrowBookResponse borrowBook(BorrowBookRequest request){
         var book = bookRepository.findById(request.getBookId())
                 .orElseThrow( () -> new EntityNotFoundException(BOOK_NOT_FOUND + request.getBookId()));
-        if(book.isArchived() || !book.isSharable()){
-            throw new OperationNotPermittedException("Book is archived or not shareable!");
+        if(book.isArchived()){
+            throw new OperationNotPermittedException("Book is archived can not be reachable at the moment!");
+        } else if (!book.isShareable()) {
+            throw new OperationNotPermittedException("Book is not shareable can not be reachable at the moment!");
         }
         // todo add enum status in book.
         User user = (User) request.getConnectedUser().getPrincipal();
@@ -142,11 +153,10 @@ public class BookService {
         return bookMapper.toBorrowBookResponse(bookTransactionHistory);
     }
 
-    // todo response classes will be generated soon.
     public ReturnBorrowedBookResponse returnBorrowedBook(ReturnBorrowedBookRequest request){
         var book = bookRepository.findById(request.getBookId())
                 .orElseThrow( () -> new EntityNotFoundException(BOOK_NOT_FOUND + request.getBookId()));
-        if (book.isArchived() || !book.isSharable()) {
+        if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested book is archived or not shareable");
         }
         User user = (User) request.getConnectedUser().getPrincipal();
@@ -162,7 +172,7 @@ public class BookService {
     public ApproveReturnBorrowedBookResponse approveReturnBorrowedBook(ApproveReturnBorrowedBookRequest request){
         var book = bookRepository.findById(request.getBookId())
                 .orElseThrow( () -> new EntityNotFoundException(BOOK_NOT_FOUND + request.getBookId()));
-        if(book.isArchived() || !book.isSharable()){
+        if(book.isArchived() || !book.isShareable()){
             throw new OperationNotPermittedException("The requested book is archived or not shareable!");
         }
         User user = (User) request.getConnectedUser().getPrincipal();
@@ -176,13 +186,13 @@ public class BookService {
         return bookMapper.toApproveReturnBorrowedBookResponse(bookTransactionHistory);
     }
 
-    public UploadBookCoverPictureResponse uploadBookCoverPicture(UploadBookCoverPictureRequest request) {
+    public UploadBookCoverPictureResponse uploadBookCoverPicture(UploadBookCoverPictureRequest request, Authentication connectedUser) {
         var book = bookRepository.findById(request.getBookId())
                 .orElseThrow( () -> new EntityNotFoundException(BOOK_NOT_FOUND + request.getBookId()));
-        if(book.isArchived() || !book.isSharable()){
+        if(book.isArchived() || !book.isShareable()){
             throw new OperationNotPermittedException("The book is archived or not shareable at the moment!");
         }
-        User user = (User) request.getConnectedUser().getPrincipal();
+        User user = (User) connectedUser.getPrincipal();
         var bookCoverPic = fileStorageService.saveFile(request.getFile(), user.getId());
         book.setBookCover(bookCoverPic);
         bookRepository.save(book);

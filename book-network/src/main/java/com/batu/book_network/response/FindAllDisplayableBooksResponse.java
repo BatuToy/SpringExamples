@@ -5,9 +5,9 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class FindAllBooksResponse {
+public class FindAllDisplayableBooksResponse {
     private PageResponse<BookResponse> pageResponse;
 }

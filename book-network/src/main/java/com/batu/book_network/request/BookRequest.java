@@ -2,21 +2,26 @@ package com.batu.book_network.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
-public record BookRequest(
-    Long id,
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class BookRequest{
+
     @NotNull(message = "100")
     @NotEmpty(message = "100")
-    String title,
+    private String title;
     @NotNull(message = "101")
     @NotEmpty(message = "101")
-    String authorName,
+    private String authorName;
     @NotNull(message = "102")
     @NotEmpty(message = "102")
-    String isbn,
+    private String isbn;
     @NotNull(message = "103")
     @NotEmpty(message = "103")
-    String synopsis,
-    boolean shareable
-) {
+    private String synopsis;
+    private boolean shareable;
 }

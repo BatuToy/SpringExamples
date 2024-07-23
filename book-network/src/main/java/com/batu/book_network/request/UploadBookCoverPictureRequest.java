@@ -12,6 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public class UploadBookCoverPictureRequest {
     private MultipartFile file;
-    private Authentication connectedUser;
     private Long bookId;
 }
