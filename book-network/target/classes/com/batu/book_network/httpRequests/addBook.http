@@ -1,0 +1,12 @@
+POST http://localhost:8081/api/v1/books/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJmdWxsTmFtZSI6IkpvaG4gRG9lIiwic3ViIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjEzNzgxMzcsImV4cCI6MTcyMTQ2NDUzNywiYXV0aG9yaXRpZXMiOltdfQ.1T13NYI-CDwaYdcCDxP53RPCSLuHW-GM0l-AIE3Lwjm_3yBfSRePXLvKU0haP3FD
+
+{
+  "id": 1,
+  "title": "The Adventures of Sherlock Holmes",
+  "authorName": "Arthur Conan Doyle",
+  "isbn": "978-0-123456-47-2",
+  "synopsis": "A collection of twelve short stories featuring Sherlock Holmes.",
+  "shareable": true
+}

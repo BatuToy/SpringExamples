@@ -1,0 +1,57 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/book_social_network
+    username: postgres  
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: localhost
+    port: 1025
+    username: batu  
+    password: batu
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+
+application:
+  security:
+    jwt:
+      secret-key: fdf3a2a2eab564e99018cb171f3ad6a55ab7bf54a95569d01003a6bb3e705eb4
+      expiration: 86400000 # a day
+      refresh-token:
+  file:
+    upload:
+      photos-output-path: ./uploads
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account
+
+server: 
+  port: 8081
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        orm:
+          jdbc: 
+            bind: trace
+
+
