@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/v1/job
+Content-Type: application/json
+
+{
+  "jobTitle": "Software Engineer",
+  "jobDescription": "Responsible for developing, testing, and maintaining software applications.",
+  "companyName": "TechCorp",
+  "location": "San Francisco, CA",
+  "salary": 120000.00,
+  "postedDate": "2024-07-08",
+  "jobStatus": true
+}

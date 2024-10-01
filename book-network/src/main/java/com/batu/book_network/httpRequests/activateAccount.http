@@ -1,0 +1,4 @@
+@host = http://localhost:8081/api/v1
+
+GET {{host}}/auth/activate-account?activationCode=253135
+
