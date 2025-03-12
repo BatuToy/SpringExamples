@@ -39,7 +39,9 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- Validation api dependency problem solved!-->
+		<!-- Validation api dependency problem solved:
+			-> Without "spring-boot-starter-validation" dependency "jakarta.validation-api" will not going to work!
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>

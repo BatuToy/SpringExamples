@@ -1,6 +1,9 @@
 name: liq-demo-action
 run-name: ${{github.actor}} triggering the workflow !
 on:
+  push:
+    branches:
+      - liquibase
 jobs:
   test-ubuntu-amd:
     runs-on: ubuntu-22.04
