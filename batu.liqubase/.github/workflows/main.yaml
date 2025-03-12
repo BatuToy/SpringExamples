@@ -1,0 +1,19 @@
+name: liq-demo-action
+run-name: ${{github.actor}} triggering the workflow !
+on:
+jobs:
+  test-ubuntu-amd:
+    runs-on: ubuntu-22.04
+    steps:
+       -  uses: actions/checkout@v4
+       -  uses: actions/setup-java@v4
+          with:
+            java-version: '17'
+            distribution: 'corretto'
+            cache: 'maven'
+            cache-dependency-path: '/../../pom.xml'
+          run: mvn -B package --file pom.xml
+
+
+
+

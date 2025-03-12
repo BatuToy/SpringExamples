@@ -8,11 +8,12 @@ import com.batu.book_network.config.response.LoginResponse;
 import com.batu.book_network.config.request.RegistrationRequest;
 import com.batu.book_network.config.response.RegistrationResponse;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 
 public interface AuthenticationService {
     LoginResponse authenticate(LoginRequest request);
-    RegistrationResponse register(RegistrationRequest request) throws MessagingException;
+    RegistrationResponse register(@Valid  RegistrationRequest request) throws MessagingException;
     AuthorizeManagerResponse authenticateManager(Authentication connectedUser);
     ChangePasswordResponse changePassword(ChangePasswordRequest request, Authentication connectedUser);
     void activateAccount(String activationCode) throws MessagingException;

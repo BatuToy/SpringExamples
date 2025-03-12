@@ -32,7 +32,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<RegistrationResponse> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException
+    public ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest request) throws MessagingException
     {
         var response = authService.register(request);
         return response != null ? ResponseEntity.ok(response) : ResponseEntity.badRequest().build();

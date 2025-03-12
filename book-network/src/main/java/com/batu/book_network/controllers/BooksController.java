@@ -5,6 +5,7 @@ import com.batu.book_network.config.response.*;
 import com.batu.book_network.config.mapper.BookMapper;
 import com.batu.book_network.services.BookService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,13 +118,11 @@ public class BooksController {
     }
 
     @PostMapping(value = "cover/{book-id}", consumes = "multipart/form-data")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UploadBookCoverPictureResponse> uploadBookCoverPicture(
-            @PathVariable("book-id") Long bookId,
-            //@Parameter()
-            @RequestPart("file") MultipartFile file,
-            Authentication connectedUser) {
+            @PathVariable("book-id") Long bookId, @RequestPart("file") MultipartFile file) {
         var request = bookMapper.toUploadBookCoverPictureRequest(bookId, file);
-        return ResponseEntity.ok(bookService.uploadBookCoverPicture(request, connectedUser));
+        return ResponseEntity.ok(bookService.uploadBookCoverPicture(request));
     }
 
 }

@@ -19,6 +19,7 @@ import com.batu.book_network.entites.User;
 import com.batu.book_network.entites.enums.Roles;
 import com.batu.book_network.config.security.JwtService;
 import com.batu.book_network.services.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,10 +32,13 @@ import org.springframework.stereotype.Service;
 import com.batu.book_network.entites.enums.EmailTemplateName;
 
 import jakarta.mail.MessagingException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.validation.annotation.Validated;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Validated
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     // declare a const variable for userRole enum
@@ -55,35 +59,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     public LoginResponse authenticate(LoginRequest request){
-        var auth = authenticationManager.authenticate(
+        User user = (User) authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassWord()
                 )
         );
         var claims = new HashMap<String, Object>();
-        var user = ((User)auth.getPrincipal());
         claims.put("fullName", user.getFullName());
         tokenService.revokeAllTokens(user);
-        var jwt = jwtService.generateToken(claims, user);
-        tokenService.save(tokenService.addToken(user, jwt));
-        return LoginResponse
-                    .builder().token(jwt).build();
+        var token = jwtService.generateToken(claims, user);
+        tokenService.save(tokenService.addToken(user, token));
+        return new LoginResponse(token);
     }
 
     public RegistrationResponse register (RegistrationRequest request) throws MessagingException{
-        // check the mail.
         exitsByEmail(request.getEmail());
-        var user = mapper.registerToUser(request);
+        User user = mapper.registerToUser(request);
         roleService.addRole(userService.save(user), Roles.ROLE_USER);
-        // check the role.
         existByRole(user);
         sendValidationEmail(user);
         return mapper.userToResponse(user);
     }
 
     public AuthorizeManagerResponse authenticateManager (Authentication connectedUser){
-        User user = (User)connectedUser.getPrincipal();
+        User user = (User) connectedUser.getPrincipal();
         roleService.addRole(user, Roles.ROLE_ADMIN);
         log.info("{}", user.getAuthorities());
         return mapper.toAuthorizeManagerResponse(user);
@@ -97,13 +97,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return mapper.toChangePasswordResponse(user);
     }
 
-    //@Transactional
-    /** FIX ISSUE
-      In any exception, rollback the transaction.Cause the token save operation is failed.
-     **/
+    @Transactional
+
     public void activateAccount(String activationCode) throws MessagingException {
         var activation = activationService.findByActivationCode(activationCode);
-        isTokenExpiredSendEmail(activation);
+        ifTokenExpiredSendEmail(activation);
         var user = activation.getUser();
         user.setEnable(true);
         userService.save(user);
@@ -149,7 +147,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return codeBuilder.toString();
     }
 
-    private void isTokenExpiredSendEmail(Activation activation) throws MessagingException {
+    private void ifTokenExpiredSendEmail(Activation activation) throws MessagingException {
         if(LocalDateTime.now().isAfter(activation.getExpiresAt())){
             sendValidationEmail(activation.getUser());
             throw new IllegalArgumentException("Activation expired!");
