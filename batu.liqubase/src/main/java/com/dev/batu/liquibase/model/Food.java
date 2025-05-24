@@ -26,7 +26,7 @@ public class Food {
     private Integer quantity;
 
     @Column(name = "weight")
-    private Float weight;
+    private Double weight;
 
     @Column(name = "expiration_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant expirationDate;

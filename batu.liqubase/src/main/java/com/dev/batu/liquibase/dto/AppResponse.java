@@ -12,10 +12,10 @@ public class AppResponse<T> {
     private final HttpStatus status;
     private T data;
 
-    public AppResponse(String err, HttpStatus status) {
-        this.err = err;
-        this.status = status;
-    }
+//    public AppResponse(String err, HttpStatus status) {
+//        this.err = err;
+//        this.status = status;
+//    }
 
     public AppResponse(T data, HttpStatus status) {
         this.err = "---";

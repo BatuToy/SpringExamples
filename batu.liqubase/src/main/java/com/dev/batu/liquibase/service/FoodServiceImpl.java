@@ -43,7 +43,7 @@ public class FoodServiceImpl implements FoodService {
                     request.getWeight(),
                     Instant.now().plus(request.getExpiredTime(), ChronoUnit.DAYS)
             ));
-            return new FoodDto(food.getId());
+            return new FoodDto(food.getId(), food.getWeight());
         } catch ( FoodDomainException foodDomainException) {
             LOGGER.error("An error occur while persisting food in to the database!",
                     foodDomainException);
@@ -54,12 +54,13 @@ public class FoodServiceImpl implements FoodService {
     @Override
     @Transactional
     public FoodDto getFoodByFoodId(GetFoodByIdRequest request) {
-            Optional<Food> food = foodRepository.getFoodsById(request.getFoodId());
-            if(food.isEmpty()){
+            Optional<Food> optFood = foodRepository.getFoodsById(request.getFoodId());
+            if(optFood.isEmpty()){
                 LOGGER.error(" Food with id= "+ request.getFoodId() + "is not exist in the persist store!");
                 throw new FoodDomainException("Food with id= "+ request.getFoodId() +" is not exist in persist store!");
             } else {
-                return new FoodDto(food.get().getId());
+                Food food = optFood.get();
+                return new FoodDto(food.getId(), food.getWeight());
             }
     }
 }

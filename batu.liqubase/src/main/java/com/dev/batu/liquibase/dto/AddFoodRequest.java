@@ -22,7 +22,7 @@ public class AddFoodRequest {
     @Min(1)
     private final Integer quantity;
     @NotNull
-    private final Float weight;
+    private final Double weight;
     @NotNull
     private final Long expiredTime;
 

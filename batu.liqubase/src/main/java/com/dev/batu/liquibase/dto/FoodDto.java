@@ -15,4 +15,7 @@ public class FoodDto {
 
     @NotNull
     private final UUID foodId;
+
+    @NotNull
+    private final Double weight;
 }

@@ -14,10 +14,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/auth")
@@ -63,7 +66,7 @@ public class AuthenticationController {
     @PatchMapping(value = "password-change")
     public ResponseEntity<ChangePasswordResponse> changePassword(
             @RequestBody @Valid ChangePasswordRequest request,
-            Authentication connectedUser
+            @AuthenticationPrincipal Authentication connectedUser
     ){
         return ResponseEntity.ok(authService.changePassword(request, connectedUser));
     }

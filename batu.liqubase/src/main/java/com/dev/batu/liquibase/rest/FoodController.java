@@ -7,10 +7,7 @@ import com.dev.batu.liquibase.dto.GetFoodByIdRequest;
 import com.dev.batu.liquibase.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Level;
@@ -30,7 +27,7 @@ public class FoodController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public AppResponse<FoodDto> addFood(@RequestBody AddFoodRequest request) {
-        LOGGER.log(Level.INFO, "Food starting to creating. Current class={0}", FoodController.class.toString());
+        LOGGER.log(Level.INFO, "Food starting to creating. Current class={0}", FoodController.class);
         return new AppResponse<>(
                 foodService.createFood(request),
                 HttpStatus.ACCEPTED
@@ -40,7 +37,7 @@ public class FoodController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value = "/get")
     public AppResponse<FoodDto> getFoodByFoodId(@RequestBody GetFoodByIdRequest request) {
-        LOGGER.log(Level.INFO, "All foods are starting to list. Current class={0}", FoodController.class.toString());
+        LOGGER.log(Level.INFO, "All foods are starting to list. Current class={0}", FoodController.class);
         return new AppResponse<>(
             foodService.getFoodByFoodId(request),
                 HttpStatus.OK
