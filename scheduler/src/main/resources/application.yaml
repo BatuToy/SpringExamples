@@ -5,7 +5,7 @@ spring:
   task:
     scheduling:
       pool:
-        size: 5
+        size: 7
         # In default only one thread opened for scheduler operations.
         # This means if there is more then one job planning to start at the same time cause of the One Thread
         # situation will block one the jobs.
