@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres
+    container_name: liq_db
+    environment:
+      POSTGRES_USER: liq_user
+      POSTGRES_PASSWORD: liquibase
+      POSTGRES_DATABASE: liq_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./vols/liq_data:/var/lib/postgresql/data

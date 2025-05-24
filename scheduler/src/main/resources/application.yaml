@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: scheduler-demo
+
+  task:
+    scheduling:
+      pool:
+        size: 5
+        # In default only one thread opened for scheduler operations.
+        # This means if there is more then one job planning to start at the same time cause of the One Thread
+        # situation will block one the jobs.
+
+  datasource:
+    username: schedulerUser
+    password: passAdmin123.
+    url: jdbc:postgresql://localhost:5432/job
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    sql: trace
+

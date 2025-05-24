@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="1741690363013-1" author="batu (generated)">
+        <createTable tableName="t_foods">
+            <column name="food_id" type="JAVA.UTIL.UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="quantity" defaultValue="0" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="food_name" defaultValue="--" type="java.lang.String">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1741612702861-1" author="batu (generated)">
+        <addColumn tableName="t_foods">
+            <column name="weight" type="float">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1741682203412-1" author="batu (generated)">
+        <addColumn tableName="t_foods">
+            <column name="expiration_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1741692767895-1" author="batu (generated)">
+        <update tableName="t_foods">
+            <column name="expiration_date" type="JAVA.SQL.TYPES.TIMESTAMP_WITH_TIMEZONE">
+                <constraints nullable="false"/>
+            </column>
+        </update>
+    </changeSet>
+    <changeSet id="1741693677503-1" author="batu (generated)">
+        <modifyDataType tableName="t_foods" columnName="expiration_date" newDataType="TIMESTAMP WITH TIME ZONE" />
+    </changeSet>
+    <changeSet id="1741779178206-1" author="batu (generated)">
+        <!-- With "modifyDataType" tag we can update column data types in liquibase .xml files!-->
+        <modifyDataType tableName="t_foods" columnName="quantity" newDataType="java.lang.Integer"/>
+    </changeSet>
+    <changeSet id="1741844572748-1" author="batu (generated)">
+        <modifyDataType tableName="t_foods" columnName="weight" newDataType="java.lang.Double"/>
+    </changeSet>
+
+</databaseChangeLog>

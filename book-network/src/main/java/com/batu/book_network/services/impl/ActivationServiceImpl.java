@@ -17,7 +17,8 @@ public class ActivationServiceImpl implements ActivationService{
     }
 
     public Activation findByActivationCode(String activationCode){
-        return activationRepository.findByActivationCode(activationCode).orElseThrow(() -> new IllegalStateException("Activation not initialized!"));
+        return activationRepository.findByActivationCode(activationCode)
+                .orElseThrow(() -> new IllegalStateException("Activation not initialized!"));
     }
 
     public void deleteActivationCode(Activation activation){

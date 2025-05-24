@@ -17,5 +17,5 @@ public interface BookService {
     BorrowBookResponse borrowBook(BorrowBookRequest request);
     ReturnBorrowedBookResponse returnBorrowedBook(ReturnBorrowedBookRequest request);
     ApproveReturnBorrowedBookResponse approveReturnBorrowedBook(ApproveReturnBorrowedBookRequest request);
-    UploadBookCoverPictureResponse uploadBookCoverPicture(UploadBookCoverPictureRequest request, Authentication connectedUser);
+    UploadBookCoverPictureResponse uploadBookCoverPicture(UploadBookCoverPictureRequest request);
 }

@@ -11,8 +11,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class RegistrationRequest {
-    @NotNull(message = " Full name must bu entered!")
-    @NotBlank(message = " FullName must bu entered!")
+    @NotNull(message = " fullName must bu entered!")
+    @NotBlank(message = " fullName must bu entered!")
+    @Size(min = 3, max = 10, message = "size validation!")
     private String firstname;
 
     @NotNull(message = " Last name must bu entered!")

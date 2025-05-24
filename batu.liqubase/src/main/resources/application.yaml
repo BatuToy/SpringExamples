@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: liq_user
+    password: liquibase
+    url: jdbc:postgresql://localhost:5432/liq_db?currentSchema=liq_schema
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  liquibase:
+    change-log: "classpath:/db/changelog/db.changelog-master.xml"
+    enabled: true
+    default-schema: liq_schema
+
+server:
+  port: 9090
+
+  servlet:
+    context-path: "/api/liq"
+

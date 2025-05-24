@@ -169,14 +169,13 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toApproveReturnBorrowedBookResponse(bookTransactionHistory);
     }
 
-    public UploadBookCoverPictureResponse uploadBookCoverPicture(UploadBookCoverPictureRequest request, Authentication connectedUser) {
+    public UploadBookCoverPictureResponse uploadBookCoverPicture(UploadBookCoverPictureRequest request) {
         var book = bookRepository.findById(request.getBookId())
                 .orElseThrow( () -> new EntityNotFoundException(BOOK_NOT_FOUND + request.getBookId()));
         if(book.isArchived() || !book.isShareable()){
             throw new OperationNotPermittedException("The book is archived or not shareable at the moment!");
         }
-        User user = (User) connectedUser.getPrincipal();
-        var bookCoverPic = fileStorageService.saveFile(request.getFile(), user.getId());
+        final String bookCoverPic = fileStorageService.saveFile(request.getFile(), request.getUserId());
         book.setBookCover(bookCoverPic);
         bookRepository.save(book);
         return bookMapper.bookCoverPictureResponse(book);
