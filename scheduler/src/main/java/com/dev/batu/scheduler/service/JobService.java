@@ -1,5 +1,6 @@
 package com.dev.batu.scheduler.service;
 
+import com.dev.batu.scheduler.dto.PersistJobDto;
 import com.dev.batu.scheduler.model.Job;
 
 /*
@@ -10,6 +11,6 @@ public interface JobService {
 
     void updateTryColumn();
     void deleteAll();
-    Job persistJob(Job job);
+    PersistJobDto persistJob(String tryColumn);
 
 }

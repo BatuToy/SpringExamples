@@ -5,16 +5,16 @@ package com.dev.batu.scheduler.model;
  * author: batu
  */
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Locale;
 import java.util.UUID;
 
+@Builder
 @Entity(name = "job")
 @Table(name = "t_jobs")
 @Data
@@ -27,9 +27,16 @@ public class Job {
     private UUID id;
 
     @Column(nullable = false, updatable = false, unique = true)
-    private String jobName = UUID.randomUUID().toString();
+    private String jobName;
 
     @Column(nullable = false)
     private String tryColumn;
+
+    @PrePersist
+    public void onPrePersist(){
+        this.jobName = UUID.randomUUID().toString().substring(3, 11).toLowerCase(Locale.ROOT);
+        this.id = UUID.randomUUID();
+    }
+
 
 }

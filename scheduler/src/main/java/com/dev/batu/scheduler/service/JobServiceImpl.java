@@ -1,5 +1,6 @@
 package com.dev.batu.scheduler.service;
 
+import com.dev.batu.scheduler.dto.PersistJobDto;
 import com.dev.batu.scheduler.model.Job;
 import com.dev.batu.scheduler.repo.JobRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,13 @@ import java.util.stream.Collectors;
 @Service
 public class JobServiceImpl implements JobService{
 
-    private static final String UPDATE_MARKER = "/";
+    private static final String UPDATE_MARKER = "--";
     private final JobRepository jobRepository;
 
     @Override
     public void updateTryColumn() {
         jobRepository.findAll().forEach(job  -> {
-             jobRepository.updateTryColumnById(job.getTryColumn() + "--", job.getId());
+             jobRepository.updateTryColumnById(job.getTryColumn() + UPDATE_MARKER, job.getId());
         });
     }
 
@@ -36,7 +37,11 @@ public class JobServiceImpl implements JobService{
     }
 
     @Override
-    public Job persistJob(Job job) {
-        return jobRepository.save(job);
+    public PersistJobDto persistJob(String tryColumn) {
+        Job job = Job.builder()
+                .tryColumn(tryColumn)
+                .build();
+        return new PersistJobDto("Job with job id= "+ job.getId().toString()
+                + "persisted successfully in to the persist!");
     }
 }
