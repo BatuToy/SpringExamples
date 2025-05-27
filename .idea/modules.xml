@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SpringExamples.iml" filepath="$PROJECT_DIR$/.idea/SpringExamples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/batu.liqubase/batu.liquibase.iml" filepath="$PROJECT_DIR$/batu.liqubase/batu.liquibase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jobapp/jobapp.iml" filepath="$PROJECT_DIR$/jobapp/jobapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scheduler/scheduler.iml" filepath="$PROJECT_DIR$/scheduler/scheduler.iml" />
     </modules>
   </component>
 </project>

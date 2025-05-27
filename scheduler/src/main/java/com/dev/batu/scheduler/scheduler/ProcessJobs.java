@@ -1,5 +1,6 @@
 package com.dev.batu.scheduler.scheduler;
 
+import com.dev.batu.scheduler.repo.JobRepository;
 import com.dev.batu.scheduler.service.JobService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

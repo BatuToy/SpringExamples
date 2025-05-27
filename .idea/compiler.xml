@@ -31,6 +31,15 @@
         </processorPath>
         <module name="batu.liquibase" />
       </profile>
+      <profile name="Annotation profile for strategy" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="strategy-pattern" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -41,6 +50,7 @@
       <module name="jobapp" options="-parameters" />
       <module name="mapperDemo" options="-parameters" />
       <module name="scheduler" options="-parameters" />
+      <module name="strategy-pattern" options="-parameters" />
     </option>
   </component>
 </project>
