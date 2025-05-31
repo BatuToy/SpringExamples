@@ -5,9 +5,10 @@ package com.dev.batu.strategy.mapper;
  * author: batu
  */
 
-import com.dev.batu.strategy.dto.projection.ProcessPaymentDto;
+import com.dev.batu.strategy.dto.CommitPaymentDto;
+import com.dev.batu.strategy.dto.RollbackPaymentDto;
 import com.dev.batu.strategy.model.Account;
-import com.dev.batu.strategy.model.PaymentType;
+import com.dev.batu.strategy.model.Payment;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
@@ -15,7 +16,11 @@ import java.math.BigDecimal;
 @UtilityClass
 public class PaymentMapper {
 
-    public static ProcessPaymentDto toPaymentDto(Account sender, Account receiver, BigDecimal transferAmount, String paymentType) {
-        return new ProcessPaymentDto(sender, receiver, transferAmount, paymentType);
+    public static CommitPaymentDto toCommitPaymentDto(Account sender, Account receiver, BigDecimal transferAmount, String paymentType) {
+        return new CommitPaymentDto(sender, receiver, transferAmount, paymentType);
+    }
+
+    public static RollbackPaymentDto toRollbackPaymentDto(Account sender, Account receiver, Payment payment) {
+        return new RollbackPaymentDto(sender, receiver, payment);
     }
 }

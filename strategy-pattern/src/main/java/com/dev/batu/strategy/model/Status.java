@@ -5,7 +5,7 @@ package com.dev.batu.strategy.model;
  * author: batu
  */
 public enum Status {
-    PENDING("PENDING"), FINISHED("FINISHED"), FAILED("FAILED"), CANCELLED("CANCELLED");
+    PENDING("PENDING"), COMMIT("COMMIT"), RETURNED("RETURNED"),  FINISHED("FINISHED"), FAILED("FAILED");
 
     private String name;
 

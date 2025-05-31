@@ -1,5 +1,6 @@
 package com.dev.batu.strategy.model;
 
+import com.dev.batu.strategy.model.base.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account extends BaseEntity {
 
     @Id
     @Column(name = "ID")

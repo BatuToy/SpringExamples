@@ -5,9 +5,8 @@ package com.dev.batu.strategy.rest;
  * author: batu
  */
 
-import com.dev.batu.strategy.PaymentManager;
-import com.dev.batu.strategy.dto.projection.TransferTransactionDto;
-import com.dev.batu.strategy.payments.PaymentTransactionService;
+import com.dev.batu.strategy.dto.TransferTransactionDto;
+import com.dev.batu.strategy.service.PaymentTransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

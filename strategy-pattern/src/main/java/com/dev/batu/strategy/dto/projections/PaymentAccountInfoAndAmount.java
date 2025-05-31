@@ -1,4 +1,4 @@
-package com.dev.batu.strategy.dto.projection;
+package com.dev.batu.strategy.dto.projections;
 
 import java.math.BigDecimal;
 

@@ -5,8 +5,7 @@ package com.dev.batu.strategy.repo;
  * author: batu
  */
 
-import com.dev.batu.strategy.dto.projection.PaymentAccountInfoAndAmount;
-import com.dev.batu.strategy.dto.projection.PaymentSummaryProjection;
+import com.dev.batu.strategy.dto.projections.PaymentSummaryProjection;
 import com.dev.batu.strategy.model.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +35,13 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
             WHERE pt.amount > :threshold
             """, nativeQuery = true)
     Optional<PaymentSummaryProjection> findPaymentWithThreshold(@Param("threshold") BigDecimal threshold);
+
+    @Query("""
+            SELECT pt
+            FROM payment_transaction AS pt
+            JOIN FETCH pt.senderAccount
+            JOIN FETCH pt.receiverAccount
+            WHERE pt.id = :paymentId
+            """)
+    Optional<Payment> fetchPaymentById(@Param("paymentId") UUID id);
 }
