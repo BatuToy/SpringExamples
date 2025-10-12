@@ -10,7 +10,7 @@ public class WaitNotifyProcesses<T> {
 
     private final Object lock = new Object();
     private T message;
-    private boolean isWritable = true; // Initially true !
+    private boolean isWritable = true; // Initially true ! This flag protect the whole situation !
 
     void put(T msg) {
         synchronized (lock) {
